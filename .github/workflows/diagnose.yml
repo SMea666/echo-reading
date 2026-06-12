@@ -1,0 +1,28 @@
+name: 全面诊断
+
+on:
+  push:
+    paths:
+      - '**.sh'
+      - '**.json'
+      - '.github/workflows/diagnose.yml'
+  pull_request:
+    paths:
+      - '**.sh'
+      - '**.json'
+  workflow_dispatch:
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装依赖
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq shellcheck jq
+
+      - name: 运行全面诊断
+        run: bash .github/scripts/diagnose.sh --ci
