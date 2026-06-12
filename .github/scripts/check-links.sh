@@ -89,6 +89,12 @@ while IFS=: read -r file line_num content; do
       fi
     fi
 
+    # 跳过被 .gitignore 排除的 insight 个人笔记（概念/故事/闪回/共振/悬题）
+    # 这些文件只在本地存在，CI 上没有，不应算断链
+    if [[ "$target_file" =~ ^insight/(概念|你的故事|闪回|共振|悬题)/ ]]; then
+      continue
+    fi
+
     # 检查文件是否存在
     if [ ! -f "$target_file" ]; then
       echo "❌ $file:$line_num  [[${link}]]  →  $target_file  (不存在)"
