@@ -21,13 +21,4 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 运行链接检查
-        id: check
         run: bash .github/scripts/check-links.sh
-
-      - name: 通知 Slack（失败时）
-        if: failure()
-        run: |
-          curl -s -X POST "https://slack.com/api/chat.postMessage" \
-            -H "Authorization: Bearer ${{ secrets.SLACK_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d '{"channel":"#echo-reading","text":"❌ 链接检查失败！请修复断链后重新推送。"}'
