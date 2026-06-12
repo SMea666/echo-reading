@@ -1,0 +1,30 @@
+name: Markdown 格式检查
+
+on:
+  push:
+    paths:
+      - '**.md'
+  pull_request:
+    paths:
+      - '**.md'
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 markdownlint
+        run: npm install -g markdownlint-cli
+
+      - name: 运行检查
+        run: |
+          markdownlint 'books/**/*.md' 'insight/**/*.md' '*.md' \
+            --disable MD013 MD033 MD041 MD024 \
+            || true
+        # MD013: 不限制行宽（中文段落不按英文断行）
+        # MD033: 允许 HTML（某些 insight 条目可能有）
+        # MD041: 不强制首行标题
+        # MD024: 允许同级标题重复（不同章节有同名标题正常）

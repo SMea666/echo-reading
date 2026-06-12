@@ -1,0 +1,24 @@
+name: 链接检查
+
+on:
+  push:
+    paths:
+      - 'books/**'
+      - 'insight/**'
+      - '.github/workflows/check-links.yml'
+  pull_request:
+    paths:
+      - 'books/**'
+      - 'insight/**'
+  # 允许手动触发
+  workflow_dispatch:
+
+jobs:
+  check-links:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 运行链接检查
+        run: bash .github/scripts/check-links.sh
