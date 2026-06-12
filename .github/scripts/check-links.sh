@@ -57,6 +57,12 @@ while IFS=: read -r file line_num content; do
     target="${link%%|*}"
     target="${target%%#*}"   # 也去掉 # 锚点（如果有）
 
+    # 跳过示例 / 模板占位符链接（如 [[书名/章节/单元]]、[[条目名]]）
+    first_seg="${target%%/*}"
+    case "$first_seg" in
+      书名|条目名|维度|条目|章节) continue ;;
+    esac
+
     # 跳过外部链接
     [[ "$target" =~ ^https?:// ]] && continue
 
