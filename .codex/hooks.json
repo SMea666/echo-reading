@@ -21,6 +21,12 @@
             "command": "\"$(git rev-parse --show-toplevel)/.codex/hooks/auto-push.sh\"",
             "statusMessage": "Auto-pushing to remote",
             "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "\"$(git rev-parse --show-toplevel)/.codex/hooks/slack-milestone.sh\"",
+            "statusMessage": "Sending Slack milestone",
+            "timeout": 10
           }
         ]
       }
